@@ -1,12 +1,26 @@
-import fetchData from 'api-handler-for-you';
+import axios from 'axios';
 
-async function fetchData(url) {
+async function fetchData(url, method, payload) {
+    const toLowerCase = method.toLowerCase();
     try {
-        const response = await axios.get(url);
-        return await response.data;
+        let response;
+        if (toLowerCase === 'get') {
+            response = await axios.get(url);
+        } else if (toLowerCase === 'post') {
+            response = await axios.post(url, payload);
+        } else if (toLowerCase === 'put') {
+            response = await axios.put(url, payload);
+        } else if (toLowerCase === 'delete') {
+            response = await axios.delete(url);
+        } else {
+            throw new Error(`Unsupported method: ${method}`);
+        }
+        return response.data;
     } catch (error) {
-        throw new Error(`Error fetching data from ${url}: ${error.message}`);
+        throw new Error(`Error fetching data from ${url} using ${method}: ${error.message || error}`);
     }
 }
 
 export default fetchData;
+
+
