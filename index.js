@@ -1,17 +1,12 @@
-const axios = require('axios');
+import fetchData from 'api-handler-for-you';
 
-/**
- * Fetches data from the provided URL.
- * @param {string} url - The URL to fetch data from.
- * @returns {Promise<Object>} - A promise that resolves to the data.
- */
 async function fetchData(url) {
     try {
         const response = await axios.get(url);
-        return response.data;
+        return await response.data;
     } catch (error) {
         throw new Error(`Error fetching data from ${url}: ${error.message}`);
     }
 }
 
-module.exports = fetchData;
+export default fetchData;
